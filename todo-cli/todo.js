@@ -1,8 +1,15 @@
 const todoList = () => {
-  all = [];
+  let all = [];
+
+  const formattedDate = (d) => {
+    return d.toISOString().split("T")[0];
+  };
+  const today = formattedDate(new Date());
+
   const add = (todoItem) => {
     all.push(todoItem);
   };
+
   const markAsComplete = (index) => {
     all[index].completed = true;
   };
@@ -23,8 +30,8 @@ const todoList = () => {
     return list
       .map((todo) => {
         const checkbox = todo.completed ? "[x]" : "[ ]";
-        const displaydate = todo.dueDate === today ? "" : $todo.dueDate;
-        return `${checkbox} ${todo.title} ${displaydate}`;
+        const displayDate = todo.dueDate === today ? "" : ` ${todo.dueDate}`;
+        return `${checkbox} ${todo.title}${displayDate}`;
       })
       .join("\n");
   };
