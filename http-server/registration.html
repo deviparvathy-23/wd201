@@ -1,0 +1,118 @@
+
+  <html>
+   <head>
+    <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f0f0f5;
+    }
+
+    h2 {
+      text-align: center;
+      font-weight: bold;
+    }
+     h3 {
+      text-align: center;
+      font-weight: bold;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background: #1108bb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00b365;
+    }
+
+    table {
+      width: 80%;
+      margin: 30px auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #e8ebee;
+      color: rgb(14, 14, 14);
+    }
+  </style>
+</head>
+<h2>Registration Form</h2>
+
+<form id ="registrationForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for= "password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="dob">Date of birth</label>
+    <input type="date" id="dob" name="dob" required>
+
+    <input type="checkbox" id="accept-terms" name="accept-terms" required>
+    <label for="accept-terms">I accept the terms and conditions</label> 
+
+    <button type="submit">Submit</button>
+
+</form>
+<h3>Entries</h3>
+<table id="dataTable" >
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Dob</th>
+        <th>Accepted terms?</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  
+  <script src="index.js" defer></script>
+</html>
+  <script src="index.js" defer></script>
+</html>
