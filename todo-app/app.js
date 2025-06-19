@@ -1,27 +1,30 @@
 const express = require("express");
 const path = require("path");
-
+const { Todo } =require("./models");
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname,"public")));
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
 
-const { Todo } = require("./models");
 
 // Home page
 app.get("/", async (req, res) => {
-  const todos = await Todo.findAll();
-  res.render("index", { todos });
+  const allTodos=await Todo.getTodos();
+  if(this.request.accepts("html")){
+    response.render( 'index',{allTodos});
+    }
+    else
+    {
+      this.response.json({allTodos})
+    }
 });
 
 // API: Get all todos
 app.get("/todos", async (req, res) => {
-  const todos = await Todo.findAll();
-  res.json(todos); // used in tests
+  console.log("Todo list",this.request.body);
 });
 
 // API: Create todo
@@ -63,11 +66,4 @@ app.delete("/todos/:id", async (req, res) => {
     res.status(500).json(false); // Sends false on error
   }
 });
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
 module.exports = app;

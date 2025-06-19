@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static async addTodo({ title, dueDate, completed }) {
       return await Todo.create({ title, dueDate, completed });
     }
-
+    
     static async getTodos() {
       return await Todo.findAll();
     }
