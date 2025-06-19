@@ -1,5 +1,10 @@
-const app = require("./app");
+const app = require("./app"); // ✅ Correctly importing the Express app
+const { sequelize } = require("./models");
 
-app.listen(3000, () => {
-  console.log("Started express server at port 3000");
+const PORT = process.env.PORT || 3000;
+
+sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });
