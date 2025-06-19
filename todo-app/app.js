@@ -4,6 +4,8 @@ const path = require("path");
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 
+const port = process.env.PORT || 3000;
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -46,7 +48,9 @@ app.put("/todos/:id/markAsCompleted", async function (request, response) {
     return response.status(422).json(error);
   }
 });
-
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   try {
