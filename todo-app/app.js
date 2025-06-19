@@ -37,6 +37,15 @@ app.get("/", async (req, res) => {
     dueLaterTodos
   });
 });
+app.put("/todos/:id", async (req, res) => {
+  const todo = await Todo.findByPk(req.params.id);
+  await todo.setCompletionStatus(req.body.completed);
+  res.send(todo);
+});
+app.delete("/todos/:id", async (req, res) => {
+  await Todo.destroy({ where: { id: req.params.id } });
+  res.send({ success: true });
+});
 
 // Sync database and start server
 sequelize.sync().then(() => {

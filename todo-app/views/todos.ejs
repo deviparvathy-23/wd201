@@ -1,34 +1,94 @@
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App</title>
-  <link rel="stylesheet" href="/css/styles.css">
-  <script>
-    function validateForm() {
-      const title = document.forms["todoForm"]["title"].value;
-      const dueDate = document.forms["todoForm"]["dueDate"].value;
-      if (!title || !dueDate) {
-        alert("Title and Due Date must be filled out.");
-        return false;
-      }
-      return true;
+<!-- todos.ejs -->
+
+<!-- Overdue Section -->
+<h5>Overdue (<span id="count-overdue">
+        <%= overdueTodos.length %>
+    </span>)</h5>
+<ul>
+    <% overdueTodos.forEach(todo=> { %>
+        <li class="Todo-Item">
+            <label for="todo-<%= todo.id %>">
+                <input type="checkbox" id="todo-<%= todo.id %>" <%=todo.completed ? "checked" : "" %>
+                onchange="toggleComplete(<%= todo.id %>, this.checked)"
+                    />
+                    <%= todo.title %> - <%= todo.dueDate %>
+            </label>
+            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        <% }) %>
+</ul>
+
+<!-- Due Today Section -->
+<h5>Due Today (<span id="count-due-today">
+        <%= dueTodayTodos.length %>
+    </span>)</h5>
+<ul>
+    <% dueTodayTodos.forEach(todo=> { %>
+        <li class="Todo-Item">
+            <label for="todo-<%= todo.id %>">
+                <input type="checkbox" id="todo-<%= todo.id %>" <%=todo.completed ? "checked" : "" %>
+                onchange="toggleComplete(<%= todo.id %>, this.checked)"
+                    />
+                    <%= todo.title %> - <%= todo.dueDate %>
+            </label>
+            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        <% }) %>
+</ul>
+
+<!-- Due Later Section -->
+<h5>Due Later (<span id="count-due-later">
+        <%= dueLaterTodos.length %>
+    </span>)</h5>
+<ul>
+    <% dueLaterTodos.forEach(todo=> { %>
+        <li class="Todo-Item">
+            <label for="todo-<%= todo.id %>">
+                <input type="checkbox" id="todo-<%= todo.id %>" <%=todo.completed ? "checked" : "" %>
+                onchange="toggleComplete(<%= todo.id %>, this.checked)"
+                    />
+                    <%= todo.title %> - <%= todo.dueDate %>
+            </label>
+            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        <% }) %>
+</ul>
+
+<!-- Completed Section -->
+<h5>Completed Items (<span id="count-completed">
+        <%= completedTodos.length %>
+    </span>)</h5>
+<ul>
+    <% completedTodos.forEach(todo=> { %>
+        <li class="Todo-Item">
+            <label for="todo-<%= todo.id %>">
+                <input type="checkbox" id="todo-<%= todo.id %>" checked
+                    onchange="toggleComplete(<%= todo.id %>, false)" />
+                <%= todo.title %> - <%= todo.dueDate %>
+            </label>
+            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        <% }) %>
+</ul>
+
+<!-- JS to handle toggle complete -->
+<script>
+    async function toggleComplete(id, completed) {
+        await fetch(`/todos/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ completed })
+        });
+        window.location.reload();
     }
-  </script>
-</head>
-<body>
-  <%- include('header.ejs') %>
-
-  <h1>Todo Manager</h1>
-
-  <!-- Form to add a new todo -->
-  <form name="todoForm" action="/todos" method="POST" onsubmit="return validateForm()">
-    <input type="text" name="title" placeholder="Enter todo title" required>
-    <input type="date" name="dueDate" required>
-    <button type="submit">Add</button>
-  </form>
-
-  <!-- Include todos.ejs -->
-  <%- include('todos', { overdueTodos, dueTodayTodos, dueLaterTodos, completedTodos }) %>
-</body>
-</html>
+</script>

@@ -13,12 +13,24 @@
   <h1>Todo Manager</h1>
 
   <!-- Form to add a new todo -->
-  <form action="/todos" method="POST">
-    <input type="text" name="title" placeholder="Enter todo title" required>
-    <input type="date" name="dueDate" required>
-    <button type="submit">Add</button>
-  </form>
+  <form id="todoForm" action="/todos" method="POST" onsubmit="return validateForm()">
+  <input type="text" name="title" id="title" placeholder="Enter todo title" required />
+  <input type="date" name="dueDate" id="dueDate" required />
+  <button type="submit">Add</button>
+</form>
+
   <!-- Include todos.ejs which displays the three sections -->
   <%- include('todos', { overdueTodos, dueTodayTodos, dueLaterTodos }) %>
 </body>
+<script>
+  function validateForm() {
+    const title = document.getElementById("title").value.trim();
+    const dueDate = document.getElementById("dueDate").value.trim();
+    if (!title || !dueDate) {
+      alert("Title and due date cannot be empty.");
+      return false;
+    }
+    return true;
+  }
+</script>
 </html>
