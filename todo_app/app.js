@@ -1,0 +1,54 @@
+const express = require("express");
+const app = express();
+const { Todo } = require("./models");
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
+app.get("/", function (request, response) {
+  response.send("Hello World");
+});
+
+app.get("/todos", async function (_request, response) {
+  console.log("Processing list of all Todos ...");
+  try {
+  const todos = await Todo.findAll(); // Fetch all todos using Sequelize
+  return response.send(todos);
+} catch (error) {
+  console.error(error);
+  return response.status(500).json({ error: "Unable to fetch todos" });
+   }
+});
+
+app.post("/todos", async function (request, response) {
+  try {
+    const todo = await Todo.addTodo(request.body);
+    return response.json(todo);
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json(error);
+  }
+});
+
+app.put("/todos/:id/markAsCompleted", async function (request, response) {
+  const todo = await Todo.findByPk(request.params.id);
+  try {
+    const updatedTodo = await todo.markAsCompleted();
+    return response.json(updatedTodo);
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json(error);
+  }
+});
+
+app.delete("/todos/:id", async function (request, response) {
+  console.log("We have to delete a Todo with ID: ", request.params.id);
+  try {
+  const deleted = await Todo.destroy({ where: { id: request.params.id } });
+  return response.send(deleted === 1);
+} catch (error) {
+  console.error(error);
+  return response.status(500).json({ error: "Unable to delete todo" });
+}
+});
+
+module.exports = app;
