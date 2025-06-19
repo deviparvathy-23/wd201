@@ -1,10 +1,15 @@
-const app = require("./app"); // ✅ Correctly importing the Express app
-const { sequelize } = require("./models");
+const app = require("./app");
+const db = require("./models");
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+db.sequelize
+  .sync()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`✅ Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ Error syncing database:", err);
   });
-});
