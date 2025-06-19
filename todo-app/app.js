@@ -1,69 +1,29 @@
 const express = require("express");
 const path = require("path");
-const { Todo } =require("./models");
+const { sequelize, Todo } = require("./models"); // adjust path as needed
+
 const app = express();
+const port = process.env.PORT || 3000;
 
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
-//app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.urlencoded({ extended: false }));
 
+// View engine setup (optional)
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-
-// Home page
+// Sample GET route
 app.get("/", async (req, res) => {
-  const allTodos=await Todo.getTodos();
-  if(this.request.accepts("html")){
-    response.render( 'index',{allTodos});
-    }
-    else
-    {
-      this.response.json({allTodos})
-    }
+  const todos = await Todo.findAll();
+  res.render("index", { todos }); // Make sure you have views/index.ejs
 });
 
-// API: Get all todos
-app.get("/todos", async (req, res) => {
-  console.log("Todo list",this.request.body);
+// Sync database and start server
+sequelize.sync().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}).catch((err) => {
+  console.error("Failed to sync database:", err);
 });
-
-// API: Create todo
-// POST /todos
-app.post("/todos", async (req, res) => {
-  try {
-    const todo = await Todo.addTodo({
-      title: req.body.title,
-      dueDate: req.body.dueDate,
-      completed: false,
-    });
-
-    if (req.accepts("json")) {
-      return res.status(200).json(todo);
-    }
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    res.status(422).json(error);
-  }
-});
-// PUT /todos/:id/markAsCompleted
-app.put("/todos/:id/markAsCompleted", async (req, res) => {
-  const todo = await Todo.findByPk(req.params.id);
-  if (todo) {
-    const updatedTodo = await todo.markAsCompleted();
-    return res.json(updatedTodo);
-  }
-  res.status(404).send();
-});
-
-// DELETE /todos/:id
-app.delete("/todos/:id", async (req, res) => {
-  try {
-    const deleted = await Todo.destroy({ where: { id: req.params.id } });
-    res.json(deleted === 1); // Sends `true` if deleted, otherwise `false`
-  } catch (error) {
-    console.error("Error deleting todo:", error);
-    res.status(500).json(false); // Sends false on error
-  }
-});
-module.exports = app;
