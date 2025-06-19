@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 
-app.get("/", async (req, res) => {
+/*app.get("/", async (req, res) => {
   try {
     const allTodos = await Todo.findAll();
     res.render("index", { allTodos }); 
@@ -22,6 +22,20 @@ app.get("/", async (req, res) => {
     console.error(error);
     res.status(500).send("Error loading todos");
   }
+});*/
+app.get("/", async (req, res) => {
+  const allTodos = await Todo.findAll({ order: [["dueDate", "ASC"]] });
+  const today = new Date().toISOString().split("T")[0];
+
+  const overdueTodos = allTodos.filter(todo => todo.dueDate < today);
+  const dueTodayTodos = allTodos.filter(todo => todo.dueDate === today);
+  const dueLaterTodos = allTodos.filter(todo => todo.dueDate > today);
+
+  res.render("index", {
+    overdueTodos,
+    dueTodayTodos,
+    dueLaterTodos
+  });
 });
 
 // Sync database and start server

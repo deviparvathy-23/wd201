@@ -1,23 +1,25 @@
+// index.ejs
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./css/styles.css" rel="stylesheet">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <%- include('header.ejs') %>
-    <%- include('todos.ejs') %>
-    <table>
-        <% for( var i=0; i < allTodos.length; i++) { %>
-        <tr>
-            <td>
-                <%= allTodos[i].title %>
-            </td>
-        </tr>
-        <% }%>
-    </table>
-     <%- include('footer.ejs') %>
+  <%- include('header.ejs') %>
+
+  <h1>Todo Manager</h1>
+
+  <!-- Form to add a new todo -->
+  <form action="/todos" method="POST">
+    <input type="text" name="title" placeholder="Enter todo title" required>
+    <input type="date" name="dueDate" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- Include todos.ejs which displays the three sections -->
+  <%- include('todos', { overdueTodos, dueTodayTodos, dueLaterTodos }) %>
 </body>
 </html>

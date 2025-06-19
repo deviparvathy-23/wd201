@@ -1,45 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Todo List</title>
-  <style>
-    table {
-      width: 80%;
-      border-collapse: collapse;
-      margin: 20px auto;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-  </style>
-</head>
-<body>
-  <h1 style="text-align: center;">Todo List</h1>
+<h5>Overdue (<span id="count-overdue"><%= overdueTodos.length %></span>)</h5>
+<table>
+  <% overdueTodos.forEach(todo => { %>
+    <tr>
+      <td><%= todo.title %></td>
+      <td><%= todo.dueDate %></td>
+    </tr>
+  <% }) %>
+</table>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Due Date</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% allTodos.forEach(todo => { %>
-        <tr>
-          <td><%= todo.title %></td>
-          <td><%= todo.dueDate %></td>
-          <td><%= todo.completed ? "Completed" : "Pending" %></td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-</body>
-</html>
+<!-- Due Today Section -->
+<h5>Due Today (<span id="count-due-today"><%= dueTodayTodos.length %></span>)</h5>
+<table>
+  <% dueTodayTodos.forEach(todo => { %>
+    <tr>
+      <td><%= todo.title %></td>
+      <td><%= todo.dueDate %></td>
+    </tr>
+  <% }) %>
+</table>
+
+<!-- Due Later Section -->
+<h5>Due Later (<span id="count-due-later"><%= dueLaterTodos.length %></span>)</h5>
+<table>
+  <% dueLaterTodos.forEach(todo => { %>
+    <tr>
+      <td><%= todo.title %></td>
+      <td><%= todo.dueDate %></td>
+    </tr>
+  <% }) %>
+</table>
