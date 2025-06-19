@@ -4,7 +4,7 @@
   "description": "My Todo App",
   "main": "index.js",
   "scripts": {
-    "prepare": "test $NODE_ENV != 'production' && husky install || true"
+    "prepare": "test $NODE_ENV != 'production' && husky install || true",
     "test": "jest"
   },
   "devDependencies": {
