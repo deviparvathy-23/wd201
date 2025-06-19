@@ -13,10 +13,15 @@ app.use(express.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Sample GET route
+
 app.get("/", async (req, res) => {
-  const todos = await Todo.findAll();
-  res.render("index", { todos }); // Make sure you have views/index.ejs
+  try {
+    const allTodos = await Todo.findAll();
+    res.render("index", { allTodos }); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading todos");
+  }
 });
 
 // Sync database and start server
