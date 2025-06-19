@@ -1,15 +1,5 @@
 const app = require("./app");
-const db = require("./models");
 
-const PORT = process.env.PORT || 3000;
-
-db.sequelize
-  .sync()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`✅ Server is running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("❌ Error syncing database:", err);
-  });
+app.listen(3000, () => {
+  console.log("Started express server at port 3000");
+});
