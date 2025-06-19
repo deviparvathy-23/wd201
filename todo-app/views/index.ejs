@@ -18,8 +18,11 @@
     <input type="date" name="dueDate" required>
     <button type="submit">Add</button>
   </form>
+   <h5>Overdue</h5>
+<h5>Due Today</h5>
+<h5>Due Later</h5>
 
-  <!-- Include todos.ejs which displays the three sections -->
-  <%- include('todos', { overdueTodos, dueTodayTodos, dueLaterTodos }) %>
+  <!-- Include todos.ejs which displays the three sections 
+  <%- include('todos', { overdueTodos, dueTodayTodos, dueLaterTodos }) %> -->
 </body>
 </html>
