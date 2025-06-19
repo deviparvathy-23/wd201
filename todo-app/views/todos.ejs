@@ -1,31 +1,23 @@
-<h5>Overdue (<span id="count-overdue"><%= overdueTodos.length %></span>)</h5>
-<table>
+<h5>Overdue</h5>
+<p id="count-overdue"><%= overdueTodos.length %> items</p>
+<ul>
   <% overdueTodos.forEach(todo => { %>
-    <tr>
-      <td><%= todo.title %></td>
-      <td><%= todo.dueDate %></td>
-    </tr>
+    <li><%= todo.title %> (Due: <%= todo.dueDate %>)</li>
   <% }) %>
-</table>
+</ul>
 
-<!-- Due Today Section -->
-<h5>Due Today (<span id="count-due-today"><%= dueTodayTodos.length %></span>)</h5>
-<table>
+<h5>Due Today</h5>
+<p id="count-due-today"><%= dueTodayTodos.length %> items</p>
+<ul>
   <% dueTodayTodos.forEach(todo => { %>
-    <tr>
-      <td><%= todo.title %></td>
-      <td><%= todo.dueDate %></td>
-    </tr>
+    <li><%= todo.title %> (Due: <%= todo.dueDate %>)</li>
   <% }) %>
-</table>
+</ul>
 
-<!-- Due Later Section -->
-<h5>Due Later (<span id="count-due-later"><%= dueLaterTodos.length %></span>)</h5>
-<table>
+<h5>Due Later</h5>
+<p id="count-due-later"><%= dueLaterTodos.length %> items</p>
+<ul>
   <% dueLaterTodos.forEach(todo => { %>
-    <tr>
-      <td><%= todo.title %></td>
-      <td><%= todo.dueDate %></td>
-    </tr>
+    <li><%= todo.title %> (Due: <%= todo.dueDate %>)</li>
   <% }) %>
-</table>
+</ul>
