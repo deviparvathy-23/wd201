@@ -4,6 +4,8 @@ const { sequelize, Todo } = require("./models"); // adjust path as needed
 
 const app = express();
 const port = process.env.PORT || 3000;
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -45,8 +47,14 @@ app.put("/todos/:id", async (req, res) => {
   res.send(todo);
 });
 app.delete("/todos/:id", async (req, res) => {
-  await Todo.destroy({ where: { id: req.params.id } });
-  res.send({ success: true });
+  try {
+    const todoId = req.params.id;
+    await Todo.destroy({ where: { id: todoId } });
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(422).json({ error: "Could not delete the todo" });
+  }
 });
 
 // Sync database and start server
