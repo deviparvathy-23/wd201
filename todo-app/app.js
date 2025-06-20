@@ -30,11 +30,13 @@ app.get("/", async (req, res) => {
   const overdueTodos = allTodos.filter(todo => todo.dueDate < today);
   const dueTodayTodos = allTodos.filter(todo => todo.dueDate === today);
   const dueLaterTodos = allTodos.filter(todo => todo.dueDate > today);
+  const completedTodos = allTodos.filter(todo => todo.completed);
 
   res.render("index", {
     overdueTodos,
     dueTodayTodos,
-    dueLaterTodos
+    dueLaterTodos,
+     completedTodos, 
   });
 });
 app.put("/todos/:id", async (req, res) => {
