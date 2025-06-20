@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 // View engine setup (optional)
 app.set("view engine", "ejs");
@@ -56,5 +56,24 @@ sequelize.sync().then(() => {
   });
 }).catch((err) => {
   console.error("Failed to sync database:", err);
+});
+app.post("/todos", async (req, res) => {
+  try {
+    const { title, dueDate } = req.body;
+    if (!title || !dueDate) {
+      return res.status(400).send("Title and due date required");
+    }
+
+    await Todo.create({
+      title,
+      dueDate,
+      completed: false,
+    });
+
+    res.redirect("/"); // redirect to homepage after adding
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error creating todo");
+  }
 });
 module.exports = app;
