@@ -4,9 +4,6 @@ const { sequelize, Todo } = require("./models"); // adjust path as needed
 
 const app = express();
 const port = process.env.PORT || 3000;
-const methodOverride = require("method-override");
-app.use(methodOverride("_method"));
-
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
